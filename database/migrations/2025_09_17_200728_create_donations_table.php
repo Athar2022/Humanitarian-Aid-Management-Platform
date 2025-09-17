@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
+            $table->string('donor_name');
+            $table->string('type');
+            $table->integer('quantity');
+            $table->enum('status', ['pending', 'approved', 'distributed'])->default('pending');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('donations');
