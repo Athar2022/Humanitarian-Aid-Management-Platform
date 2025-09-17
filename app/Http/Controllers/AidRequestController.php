@@ -2,63 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AidRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AidRequestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $requests = AidRequest::with('beneficiary')->get();
+        return response()->json($requests);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'type' => 'required|string',
+            'description' => 'required|string',
+            'document' => 'nullable|file|max:10240', // 10MB max
+        ]);
+
+        $documentPath = null;
+        if ($request->hasFile('document')) {
+            $documentPath = $request->file('document')->store('documents', 'public');
+        }
+
+        $aidRequest = AidRequest::create([
+            'beneficiary_id' => auth()->id(),
+            'type' => $validated['type'],
+            'description' => $validated['description'],
+            'document_url' => $documentPath,
+        ]);
+
+        return response()->json($aidRequest, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(AidRequest $aidRequest)
     {
-        //
+        return response()->json($aidRequest->load('beneficiary'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, AidRequest $aidRequest)
     {
-        //
+        $validated = $request->validate([
+            'status' => 'required|in:pending,approved,denied',
+        ]);
+
+        $aidRequest->update(['status' => $validated['status']]);
+
+        return response()->json($aidRequest);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(AidRequest $aidRequest)
     {
-        //
-    }
+        if ($aidRequest->document_url) {
+            Storage::disk('public')->delete($aidRequest->document_url);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $aidRequest->delete();
+
+        return response()->json(null, 204);
     }
 }
