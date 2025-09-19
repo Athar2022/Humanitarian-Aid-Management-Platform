@@ -18,17 +18,40 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Aid Requests Routes
     Route::apiResource('aid-requests', AidRequestController::class);
-
+    
     // Donations Routes
     Route::apiResource('donations', DonationController::class);
+    Route::post('/donations/{donation}/approve', [DonationController::class, 'approve']);
+    Route::post('/donations/{donation}/distribute', [DonationController::class, 'markDistributed']);
 
     // Distributions Routes
     Route::apiResource('distributions', DistributionController::class);
+    Route::post('/distributions/{distribution}/status/{status}', [DistributionController::class, 'updateStatus']);
+    Route::get('/volunteer/distributions', [DistributionController::class, 'volunteerDistributions']);
 
     // Notifications Routes
     Route::apiResource('notifications', NotificationController::class);
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
     
-    // Users Routes (Admin only)
-    Route::apiResource('users', UserController::class)->middleware('can:admin');
-    
+    // Users Routes
+    Route::apiResource('users', UserController::class);
+    Route::get('/users/role/{role}', [UserController::class, 'getByRole']);
+    Route::get('/users/beneficiaries', [UserController::class, 'getBeneficiaries']);
+    Route::get('/users/volunteers', [UserController::class, 'getVolunteers']);
+
+    // Dashboard Statistics
+    Route::get('/dashboard/stats', function (Request $request) {
+        $user = $request->user();
+        
+        $stats = [
+            'beneficiaries' => \App\Models\User::where('role', 'beneficiary')->count(),
+            'volunteers' => \App\Models\User::where('role', 'volunteer')->count(),
+            'donations' => \App\Models\Donation::count(),
+            'aid_requests' => \App\Models\AidRequest::count(),
+            'distributions' => \App\Models\Distribution::count(),
+        ];
+
+        return response()->json($stats);
+    });
 });
