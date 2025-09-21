@@ -14,29 +14,33 @@ class AidRequestController extends Controller
         return response()->json($requests);
     }
 
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'type' => 'required|string',
             'description' => 'required|string',
-            'document' => 'nullable|file|max:10240', // 10MB max
+            'documents' => 'nullable|array',
+            'documents.*' => 'file|max:10240|mimes:jpg,jpeg,png,pdf,doc,docx',
         ]);
 
-        $documentPath = null;
-        if ($request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('documents', 'public');
+        $documentPaths = [];
+        if ($request->hasFile('documents')) {
+            foreach ($request->file('documents') as $document) {
+                $path = $document->store('aid-request-documents', 'public');
+                $documentPaths[] = $path;
+            }
         }
 
         $aidRequest = AidRequest::create([
             'beneficiary_id' => auth()->id(),
             'type' => $validated['type'],
             'description' => $validated['description'],
-            'document_url' => $documentPath,
+            'document_url' => !empty($documentPaths) ? json_encode($documentPaths) : null,
         ]);
 
-        return response()->json($aidRequest, 201);
+        return response()->json($aidRequest->load('beneficiary'), 201);
     }
-
     public function show(AidRequest $aidRequest)
     {
         return response()->json($aidRequest->load('beneficiary'));

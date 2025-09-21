@@ -25,17 +25,20 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $roles = ['admin', 'volunteer', 'beneficiary'];
+        
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
-            'role' => $this->faker->randomElement(['admin', 'volunteer', 'beneficiary']),
+            'role' => $this->faker->randomElement($roles),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
             'email_verified_at' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
+        
     }
 
 

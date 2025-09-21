@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@humanitarian.aid',
             'password' => Hash::make('password'),
             'role' => 'admin',
-            'phone' => '+1234567890',
+            'phone' => '777-777-777',
             'address' => 'Admin Address, City, Country',
         ]);
 

@@ -18,12 +18,15 @@ class DonationFactory extends Factory
      */
     public function definition(): array
     {
+        $types = ['food', 'clothing', 'medical', 'shelter', 'other'];
+        $statuses = ['pending', 'approved', 'distributed'];
+        
         return [
             'donor_name' => $this->faker->name(),
-            'type' => $this->faker->randomElement(['food', 'clothing', 'medical', 'shelter', 'other']),
+            'type' => $this->faker->randomElement($types),
             'quantity' => $this->faker->numberBetween(1, 100),
-            'status' => $this->faker->randomElement(['pending', 'approved', 'distributed']),
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'status' => $this->faker->randomElement($statuses),
+            'created_at' => now(),
             'updated_at' => now(),
         ];
     }
