@@ -20,12 +20,15 @@ class NotificationFactory extends Factory
      */
     public function definition(): array
     {
+        $types = ['system', 'aid_request', 'donation', 'distribution'];
+        $statuses = ['unread', 'read'];
+        
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'message' => $this->faker->sentence(),
-            'type' => $this->faker->randomElement(['system', 'aid_request', 'distribution', 'donation']),
-            'status' => $this->faker->randomElement(['unread', 'read']),
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'type' => $this->faker->randomElement($types),
+            'status' => $this->faker->randomElement($statuses),
+            'created_at' => now(),
             'updated_at' => now(),
         ];
     }

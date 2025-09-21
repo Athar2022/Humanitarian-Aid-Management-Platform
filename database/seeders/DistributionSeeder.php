@@ -13,6 +13,6 @@ class DistributionSeeder extends Seeder
      */
     public function run(): void
     {
-        Distribution::factory()->count(30)->create();
+        Distribution::factory()->count(20)->create();
     }
 }

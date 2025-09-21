@@ -20,13 +20,16 @@ class AidRequestFactory extends Factory
      */
     public function definition(): array
     {
-         return [
+         $types = ['food', 'clothing', 'medical', 'shelter', 'other'];
+        $statuses = ['pending', 'approved', 'denied'];
+        
+        return [
             'beneficiary_id' => User::where('role', 'beneficiary')->inRandomOrder()->first()->id,
-            'type' => $this->faker->randomElement(['food', 'clothing', 'medical', 'shelter', 'other']),
+            'type' => $this->faker->randomElement($types),
             'description' => $this->faker->paragraph(),
-            'status' => $this->faker->randomElement(['pending', 'approved', 'denied']),
-            'document_url' => $this->faker->optional()->imageUrl(),
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'status' => $this->faker->randomElement($statuses),
+            'document_url' => $this->faker->optional()->url(),
+            'created_at' => now(),
             'updated_at' => now(),
         ];
     }

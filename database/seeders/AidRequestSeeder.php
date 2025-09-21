@@ -13,6 +13,6 @@ class AidRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        AidRequest::factory()->count(100)->create();
+        AidRequest::factory()->count(20)->create();
     }
 }

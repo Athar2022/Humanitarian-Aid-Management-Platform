@@ -21,14 +21,16 @@ class DistributionFactory extends Factory
      */
     public function definition(): array
     {
+         $statuses = ['assigned', 'in_progress', 'delivered'];
+        
         return [
             'volunteer_id' => User::where('role', 'volunteer')->inRandomOrder()->first()->id,
             'beneficiary_id' => User::where('role', 'beneficiary')->inRandomOrder()->first()->id,
             'donation_id' => Donation::inRandomOrder()->first()->id,
-            'delivery_status' => $this->faker->randomElement(['assigned', 'in_progress', 'delivered']),
-            'proof_file' => $this->faker->optional()->imageUrl(),
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'delivery_status' => $this->faker->randomElement($statuses),
+            'proof_file' => $this->faker->optional()->url(),
+            'created_at' => now(),
             'updated_at' => now(),
         ];
-    }
+}
 }
