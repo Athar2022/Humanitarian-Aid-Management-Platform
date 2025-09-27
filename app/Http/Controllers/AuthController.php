@@ -29,11 +29,13 @@ class AuthController extends Controller
             'address' => $request->address,
         ]);
 
+        // Issue a Sanctum token immediately after successful registration
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
             'token' => $token,
+            'token_type' => 'Bearer', // Clients should send as Authorization: Bearer <token>
         ], 201);
     }
 
@@ -47,16 +49,19 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            // Return a clear 401 Unauthorized response on bad credentials
+            return response()->json([
+                'message' => 'Invalid email or password.'
+            ], 401);
         }
 
+        // Generate a new Sanctum token on successful login
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
             'token' => $token,
+            'token_type' => 'Bearer',
         ]);
     }
 

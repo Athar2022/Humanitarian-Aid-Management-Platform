@@ -10,10 +10,7 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:admin')->except(['index', 'show']);
-    }
+    // Authorization is enforced via gates in routes or within methods
 
     /**
      * Display a listing of the resource.

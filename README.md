@@ -1,61 +1,153 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Humanitarian Aid Management Platform - Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## نظرة عامة
+منصة إدارة المساعدات الإنسانية هي نظام شامل لإدارة طلبات المساعدات، التبرعات، والتوزيعات للمنظمات الإنسانية. يوفر هذا النظام API قوي ومرن لإدارة جميع العمليات المتعلقة بالمساعدات الإنسانية.
 
-## About Laravel
+## الميزات الرئيسية
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🔐 المصادقة والأمان
+- تسجيل الدخول والخروج باستخدام Laravel Sanctum
+- إدارة الأدوار (Admin, Volunteer, Beneficiary)
+- حماية API endpoints
+- دعم CORS للواجهة الأمامية
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👥 إدارة المستخدمين
+- إنشاء وإدارة المستخدمين
+- تصنيف المستخدمين حسب الأدوار
+- ملفات شخصية شاملة
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📋 طلبات المساعدات
+- إنشاء طلبات مساعدات جديدة
+- تتبع حالة الطلبات (Pending, Approved, Denied)
+- رفع المستندات المطلوبة
+- إشعارات تلقائية
 
-## Learning Laravel
+### 💰 إدارة التبرعات
+- تسجيل التبرعات الجديدة
+- موافقة على التبرعات
+- تتبع حالة التوزيع
+- تقارير شاملة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📦 إدارة التوزيعات
+- تخطيط وتنفيذ التوزيعات
+- تخصيص المتطوعين للمهام
+- تتبع حالة التوزيع
+- تقارير الأداء
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🔔 نظام الإشعارات
+- إشعارات فورية للمستخدمين
+- تتبع الإشعارات المقروءة وغير المقروءة
+- إشعارات مخصصة حسب الدور
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## التقنيات المستخدمة
 
-## Laravel Sponsors
+- **Laravel 11** - إطار عمل PHP
+- **Laravel Sanctum** - مصادقة API
+- **SQLite** - قاعدة البيانات
+- **Laravel Scribe** - توثيق API تلقائي
+- **PHP 8.2+** - لغة البرمجة
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## متطلبات النظام
 
-### Premium Partners
+- PHP 8.3
+- Composer
+- SQLite
+- Laravel CLI
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+## API Endpoints
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### المصادقة
+- `POST /api/register` - تسجيل مستخدم جديد
+- `POST /api/login` - تسجيل الدخول
+- `POST /api/logout` - تسجيل الخروج
+- `GET /api/user` - معلومات المستخدم الحالي
 
-## Code of Conduct
+### المستخدمين
+- `GET /api/users` - قائمة المستخدمين
+- `POST /api/users` - إنشاء مستخدم جديد (Admin فقط)
+- `GET /api/users/{id}` - تفاصيل مستخدم
+- `PUT /api/users/{id}` - تحديث مستخدم
+- `DELETE /api/users/{id}` - حذف مستخدم
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### طلبات المساعدات
+- `GET /api/aid-requests` - قائمة طلبات المساعدات
+- `POST /api/aid-requests` - إنشاء طلب مساعدة جديد
+- `GET /api/aid-requests/{id}` - تفاصيل طلب مساعدة
+- `PUT /api/aid-requests/{id}` - تحديث طلب مساعدة
+- `DELETE /api/aid-requests/{id}` - حذف طلب مساعدة
 
-## Security Vulnerabilities
+### التبرعات
+- `GET /api/donations` - قائمة التبرعات
+- `POST /api/donations` - إنشاء تبرع جديد
+- `GET /api/donations/{id}` - تفاصيل تبرع
+- `PUT /api/donations/{id}` - تحديث تبرع
+- `DELETE /api/donations/{id}` - حذف تبرع
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### التوزيعات
+- `GET /api/distributions` - قائمة التوزيعات
+- `POST /api/distributions` - إنشاء توزيع جديد
+- `GET /api/distributions/{id}` - تفاصيل توزيع
+- `PUT /api/distributions/{id}` - تحديث توزيع
+- `DELETE /api/distributions/{id}` - حذف توزيع
 
-## License
+### الإشعارات
+- `GET /api/notifications` - قائمة الإشعارات
+- `POST /api/notifications` - إنشاء إشعار جديد
+- `GET /api/notifications/{id}` - تفاصيل إشعار
+- `PUT /api/notifications/{id}` - تحديث إشعار
+- `DELETE /api/notifications/{id}` - حذف إشعار
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## الأدوار والصلاحيات
+
+### Admin (مدير)
+- إدارة جميع المستخدمين
+- إدارة التبرعات والتوزيعات
+- عرض جميع التقارير والإحصائيات
+- إدارة النظام بالكامل
+
+### Volunteer (متطوع)
+- عرض طلبات المساعدات المعينة
+- إدارة التوزيعات المكلف بها
+- تحديث حالة المهام
+- عرض الإشعارات
+
+### Beneficiary (مستفيد)
+- إنشاء طلبات مساعدات جديدة
+- تتبع حالة طلباته
+- عرض الإشعارات الموجهة إليه
+- تحديث ملفه الشخصي
+
+
+## الاختبار
+
+```bash
+# تشغيل الاختبارات
+php artisan test
+
+# تشغيل اختبارات محددة
+php artisan test --filter=AuthTest
+```
+
+## البيانات التجريبية
+
+يحتوي النظام على Seeders لإنشاء بيانات تجريبية:
+
+```bash
+php artisan db:seed
+```
+
+هذا سينشئ:
+- مستخدمين تجريبيين لكل دور
+- طلبات مساعدات تجريبية
+- تبرعات تجريبية
+- توزيعات تجريبية
+
+## الأمان
+
+- جميع API endpoints محمية بـ Sanctum
+- دعم CORS للواجهة الأمامية
+- تشفير كلمات المرور
+- حماية من SQL Injection
+- التحقق من صحة البيانات
+

@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AidRequestController;
 use App\Http\Controllers\DonationController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Use controller method for consistency and to allow future customization
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -32,11 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
     Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
     
-    // Define specific user listing routes BEFORE the resource to avoid {user} binding catching them
+    Route::apiResource('users', UserController::class);
     Route::get('/users/role/{role}', [UserController::class, 'getByRole']);
     Route::get('/users/beneficiaries', [UserController::class, 'getBeneficiaries']);
     Route::get('/users/volunteers', [UserController::class, 'getVolunteers']);
-    Route::apiResource('users', UserController::class);
 
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
     Route::get('/dashboard/charts', [DashboardController::class, 'charts']);
