@@ -22,6 +22,14 @@ class UserSeeder extends Seeder
             'phone' => '+1234567890',
             'address' => 'Admin Address, City, Country',
         ]);
+         User::create([
+            'name' => 'benfic User',
+            'email' => 'benefic@humanitarian.aid',
+            'password' => Hash::make('password'),
+            'role' => 'beneficiary',
+            'phone' => '+1234567890',
+            'address' => 'benefic Address, City, Country',
+        ]);
 
         User::factory()->count(5)->volunteer()->create();
 
